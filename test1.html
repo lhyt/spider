@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript" src='ajax.js'></script>
+	<script type="text/javascript" src='echarts.min.js'></script>
+</head>
+
+<body>
+	请输入网址:
+	<input type='text' id='ipt'>
+	<br>
+	<button id='btn'>确定</button>
+	<br>
+	<div id="main" style="width: 1000px;height:1000px;"></div>
+	<script type="text/javascript">
+		var myChart = echarts.init(document.getElementById('main'));
+		btn['onclick'] = x => {
+			ajax({
+				url: 'http://localhost:666/count',
+				type: 'get',
+				data: {
+					str: ipt.value
+				},
+				success(data) {
+					var json = eval('(' + data + ')').book;
+					var arr = []
+					json.forEach(data => {
+						arr.push({
+							name: data.w,
+							value: data.c
+						})
+					});
+					//console.log(arr)
+
+					option = {
+						title: {
+							text: '关键词数据',
+							subtext: '过滤部分无用结果',
+							x: 'center'
+						},
+						tooltip: {
+							trigger: 'item',
+							formatter: "{a} <br/>{b} : {c} ({d}%)"
+						},
+						legend: {
+							orient: 'vertical',
+							left: 'left',
+							data: []
+						},
+						series: [
+							{
+								name: '访问来源',
+								type: 'pie',
+								radius: '55%',
+								center: ['50%', '50%'],
+								data: arr,
+								itemStyle: {
+									emphasis: {
+										shadowBlur: 10,
+										shadowOffsetX: 0,
+										shadowColor: 'rgba(0, 0, 0, 0.5)'
+									}
+								}
+							}
+						]
+					};
+
+					myChart.setOption(option);
+
+				}
+			})
+		}
+	</script>
+</body>
+
+</html>
