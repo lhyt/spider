@@ -1,3 +1,5 @@
+> 刚刚学前端的作品，作为永久的纪念
+
 根据文件安装相应的依赖，再输入node 3
 打开浏览器，访问localhost：666/test1.html
 网站:https://www.xs8.cn/
